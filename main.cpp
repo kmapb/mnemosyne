@@ -8,11 +8,24 @@ int main(int argc, char ** argv) {
 	}
 	auto db_uri = argv[1];
 	pqxx::connection C(db_uri);
-	if (C.is_open()) {
-		std::cout << "success!\n";
-	} else {
+	if (!C.is_open()) {
 		std::cout << "failure :( \n";
+		return -2;
 	}
+	std::cout << "success!\n";
+
+	pqxx::work W(C);
+	auto result = W.exec("SELECT * FROM playing_with_neon LIMIT 5;");
+
+	for (const auto& row: result) {
+		for (const auto& col: row) {
+			std::cout << col << "; ";
+		}
+		std::cout << "\n";
+	}
+	W.commit();
+	C.disconnect();
+
 	std::cout << "woot!" << "\n";
 	std::cout << 3.14159 / 2 << "\n";
 	return 0;
