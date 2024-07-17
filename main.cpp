@@ -1,7 +1,7 @@
 #include <iostream>
 #include <pqxx/pqxx>
 
-#include "val.hpp"
+#include "value.hpp"
 
 int main(int argc, char ** argv) {
 	if (argc <= 1) {
@@ -30,10 +30,6 @@ int main(int argc, char ** argv) {
 
 	std::cout << "woot!" << "\n";
 	std::cout << 3.14159 / 2 << "\n";
+	auto i64 = mnem::Value::Int(0xdeadbeef);
 	return 0;
-
-	using namespace mnem;
-// Val v { .type = ValType::INT, .u = { .s = { "foo" } } };
-	Val v;
-	auto i64 = Val::i(0xdeadbeef);
 }
